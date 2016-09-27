@@ -42,7 +42,13 @@ namespace IISManage.WebApi.Controllers
         [Route("AddBind")]
         public ResultModel AddBind(int siteId,[FromBody] BindingModel model)
         {
-            
+            var allSites = GetSiteFullList();
+            //是否有，已存在此域名的站点（域名，端口）都相网的站点
+            var siteContainDomain = allSites.FirstOrDefault(x => x.Bindings.Any(b => string.Compare(b.Host, model.Host, StringComparison.OrdinalIgnoreCase) == 0 && b.Port==model.Port));
+            if (siteContainDomain != null)
+            {
+                return new ResultModel(false,$"{model.Host}:{model.Port},已绑定于站点,{siteContainDomain.SiteId}::{siteContainDomain.SiteName}");
+            }
         }
 
         #endregion
