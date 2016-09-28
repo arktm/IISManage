@@ -19,6 +19,7 @@ namespace IISManage.Models
         public string Host { get; set; }
         public int Port { get; set; }
         public string IP { get; set; }
+        public string Protocol { get; set; } = "http";
     }
 
     public class SiteModel
